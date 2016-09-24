@@ -1,0 +1,158 @@
+/********************************************************************************************************
+	created by:		Peter Fuerholz
+	project:		HSR CAS FEE
+	date:			09/2016
+	version:		0.1
+	function:		base Stylesheet
+********************************************************************************************************/
+
+
+* {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 15px;
+}
+
+/*
+body, html {
+    margin: 0;
+}
+*/
+
+/**
+ * menues is only needed for background filler hack (nowadays we use flex!)
+ */
+#menues {
+    overflow: hidden;
+}
+
+#main-menue {
+    margin: 0;
+    margin-bottom: -1000px;
+    padding-bottom: 1000px;
+}
+
+
+.pf-left {
+    float: left;
+}
+
+.pf-right {
+    float: right;
+}
+
+.pf-btn {
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+
+.pf-btn-pressed {
+    border-style: inset; /* same as :active style */
+    filter: brightness(1.4); /* not supported in IE (but Edge) and Opera Mini */
+}
+
+/* styles for split buttons */
+
+.pf-split-btn-div {
+    margin: 5px;
+}
+
+.pf-split-btn-middle {
+    margin: 0px;
+    padding: 5px; /* 10px;*/
+    border-radius: 0px;
+}
+
+.pf-split-btn-left {
+    margin: 0px;
+    padding: 5px;/* 10px;*/
+    border-radius: 6px 0px 0px 6px; /* top left, top right, bottom right, bottom left */
+}
+
+.pf-split-btn-right {
+    margin: 0px;
+    padding: 5px;/* 10px;*/
+    border-radius: 0px 6px 6px 0px; /* top left, top right, bottom right, bottom left */
+}
+
+
+/*
+.pf-select-div select option {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}*/
+
+
+
+
+/**
+ * Styles specific for index.html:
+ */
+
+
+.pf-select-div select {
+    background: inherit;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.pf-select-div {
+    margin: 5px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonface;
+
+    border-radius: 6px;
+    padding: 5px;
+}
+
+
+#browse-notes-sub-menue {
+    clear: both;
+}
+
+#notes-container {
+    margin: 0;
+    clear: both;
+    background-color: white;
+}
+
+.pf-flex {
+    display: flex;
+}
+
+.pf-flex-notes-col1 {
+    flex: 0 0 25%;
+    margin: 5px;
+}
+
+.pf-flex-notes-col2 {
+    flex: auto;
+    margin: 5px;
+}
+
+.pf-flex-notes-col3 {
+    flex: none; /* neither shrink nor grow */
+    margin: 5px;
+}
+
+.pf-edit-btn {
+    padding: 10px 15px;
+}
+
+.pf-notes-row {
+    margin: 5px;
+    border-radius: 4px;
+}
+
+.pf-severity {
+    float: right;
+}
+/**
+ * Styles specific for note_edit.html:
+ */

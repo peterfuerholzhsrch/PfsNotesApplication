@@ -1,0 +1,150 @@
+<!doctype html>
+
+<!-- ********************************************************************************************************
+created by:    Peter Fuerholz
+project:		HSR CAS FEE
+date:			09/2016
+version:		0.1
+function:		Base HTML. Do mind that different styles are applied so that we can later look up how you can do this
+                in one or other fashion. Used "fashions":
+                - some layouts done with floats, some with flex
+                - sometimes used jQuery but not always
+******************************************************************************************************** -->
+
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>PF's Notes Application</title>
+
+        <!--
+            Load libs:
+            -->
+        <script src="http://code.jquery.com/jquery-3.1.0.min.js"
+                integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+                crossorigin="anonymous" ></script>
+        <script src="js/handlebars-v4.0.5.js"></script>
+        <!-- see usage: http://formatjs.io/handlebars/ -->
+        <!-- script src="js/handlebars-intl-1.1.1/dist/handlebars-intl-with-locales.min.js"></script -->
+        <script src="js/handlebars-intl-with-locales.min.js"></script>
+
+
+        <!--
+            Load stylesheet:
+            -->
+        <link rel="stylesheet" href="css/main.css">
+
+        <!-- 'title' is used as parameter value of switch_style -->
+        <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
+        <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
+
+        <!--
+            Load own JavaScript code:
+            -->
+        <script src="js/main.js"></script>
+        <script src="js/styling.js"></script>
+
+        <script>
+            HandlebarsIntl.registerWith(Handlebars);
+
+
+
+            // window.onload = function() {
+            // }
+
+        </script>
+
+        <!--
+            handle-bar scripts
+            -->
+        <script id="notes-template" type="text/x-handlebars-template">
+            {{#each this}}
+            <div class="pf-notes-row pf-flex">
+                <div class="pf-flex-notes-col1">
+                    <div class="pf-due-date">
+                        {{ formatRelative dueDate }}
+                    </div>
+                    <div class="pf-finished">
+                        <input type="checkbox" data-id={{id}} {{checkedIfTrue finishedDate}}>Finished
+                        {{#if finishedDate}}
+                            [{{ formatRelative finishedDate }}]
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="pf-flex-notes-col2">
+                    <span>
+                        <div>{{title}}
+                            <span class="pf-severity">{{severity}}</span>
+                        </div>
+                        <div>{{{description}}}</div>
+                    </span>
+                </div>
+                <div class="pf-flex-notes-col3">
+                    <button class="pf-btn pf-edit-btn">Edit</button>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+
+     </head>
+    <body>
+
+        <div id="menues">
+            <div id="main-menue">
+                <button id="newNotesBtn" class="pf-btn pf-left">Create New Note</button>
+                <div class="pf-select-div pf-right">
+                    <select id="stylesSelect">
+                        <option value="styleBw">Black/White Style</option>
+                        <option value="styleBlues">Blues Style</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="browse-notes-sub-menue">
+                <div class="pf-split-btn-div">
+                    <button id="sort-by-finish-date-btn"   class="pf-btn pf-split-btn-left pf-left">
+                        By Finish Date
+                    </button>
+                    <button id="sort-by-creation-date-btn" class="pf-btn pf-split-btn-middle pf-left">
+                        By Creation Date
+                    </button>
+                    <button id="sort-by-importance-btn"    class="pf-btn pf-split-btn-right pf-left">
+                        By Importance
+                    </button>
+                </div>
+                <button id="filter-finished-btn" class="pf-btn pf-right">Show Finished</button>
+            </div>
+        </div>
+
+        <!-- show notes: -->
+
+        <div id="notes-container">
+<!--            <div class="pf-notes-row pf-flex">
+                <div class="pf-flex-notes-col1">
+                    <span class="pf-due-date">
+                        Nächsten Mittwoch
+                    </span>
+                    <span class="pf-finished">
+                        <input type="checkbox" value="Finished">
+                    </span>
+                </div>
+                <div class="pf-flex-notes-col2">
+                    <span>
+                        <div>Einkaufen</div>
+                        <div> sdkfasöljflask fs klfa klösfj klakflaks lf kj sdakfsadkf kslflks ka klfsaj ölsd fkladköf asöf las fjajöl</div>
+                    </span>
+                </div>
+                <div class="pf-flex-notes-col3">
+                    <button class="pf-btn pf-edit-btn">Edit</button>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- Add your site or application content here -->
+
+<!--        <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>
+        <script src="js/main.js"></script>
+-->
+    </body>
+</html>

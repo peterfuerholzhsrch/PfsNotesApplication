@@ -1,0 +1,35 @@
+/********************************************************************************************************
+	created by:		Peter Fuerholz
+	project:		HSR CAS FEE
+	date:			09/2016
+	version:		0.1
+	function:		Stylesheet for black/white styles
+********************************************************************************************************/
+
+
+#main-menue {
+    background-color: #cccccc;
+}
+
+.pf-btn {
+    background-color: #999999;
+    color: black;
+}
+
+.pf-select-div {
+    background-color: #999999;
+}
+
+.pf-select-div select {
+    color: black;
+}
+
+/* notes grid */
+
+.pf-notes-row:nth-child(odd) {
+    background-color: #eeeeee;
+}
+
+.pf-notes-row:nth-child(even) {
+    background-color: #dddddd;
+}

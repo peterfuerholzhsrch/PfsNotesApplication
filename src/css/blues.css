@@ -1,0 +1,37 @@
+/********************************************************************************************************
+	created by:		Peter Fuerholz
+	project:		HSR CAS FEE
+	date:			09/2016
+	version:		0.1
+	function:	    Stylesheet for Blues style
+********************************************************************************************************/
+
+#main-menue {
+    background-color: #1e77dd; /* lightblue;*/
+}
+
+.pf-btn {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.pf-select-div {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.pf-select-div select {
+    color: white;
+}
+
+
+/* notes grid */
+
+
+.pf-notes-row:nth-child(odd) {
+    background-color: azure;
+}
+
+.pf-notes-row:nth-child(even) {
+    background-color: blanchedalmond;
+}
