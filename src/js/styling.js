@@ -1,23 +1,32 @@
+"use strict";
 /********************************************************************************************************
  created by:    Peter Fuerholz
  project:		HSR CAS FEE
  date:			09/2016
  version:		0.1
- function:	    Javascript for change styling
+ function:	    Javascript for change styling. This code must be included in every HTML page supporting switchable
+                styling. The stylesheet links must have a 'title'-attribute defined, e.g.:
+ <code>
+     <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
+     <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
+ </code
  ********************************************************************************************************/
 
-function setStyle(event) {
-    console.log("event.target.value=", event.target.value); // TODO
-    switch_style(event.target.value);
-}
 
 $(function() {
     var styleSelector = document.querySelector("#stylesSelect");
-    styleSelector.addEventListener("change", setStyle);
     var style = set_style_from_cookie();
-    styleSelector.value = style; // UI shall reflect current value
+    if (styleSelector) {
+        // current document hasn't got a selector (e.g. edit.hmtl)
+        styleSelector.addEventListener("change", setStyle);
+        styleSelector.value = style; // UI shall reflect current value
+    }
 });
 
+function setStyle(event) {
+    console.log("event.target.value=", event.target.value);
+    switch_style(event.target.value);
+}
 
 
 /**
@@ -34,6 +43,10 @@ var style_domain = "peterfuerholzhsrch.github.com" ;
 // *** END OF CUSTOMISABLE SECTION ***
 // You do not need to customise anything below this line
 
+/**
+ * This function enables / disables the stylesheet of the current document according to set css_title.
+ * @param css_title
+ */
 function switch_style ( css_title )
 {
 // You may use this script on your site free of charge provided

@@ -5,10 +5,7 @@ created by:    Peter Fuerholz
 project:		HSR CAS FEE
 date:			09/2016
 version:		0.1
-function:		Base HTML. Do mind that different styles are applied so that we can later look up how you can do this
-                in one or other fashion. Used "fashions":
-                - some layouts done with floats, some with flex
-                - sometimes used jQuery but not always
+function:		Base HTML.
 ******************************************************************************************************** -->
 
 
@@ -18,77 +15,17 @@ function:		Base HTML. Do mind that different styles are applied so that we can l
         <title>PF's Notes Application</title>
 
         <!--
-            Load libs:
-            -->
-        <script src="http://code.jquery.com/jquery-3.1.0.min.js"
-                integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
-                crossorigin="anonymous" ></script>
-        <script src="js/handlebars-v4.0.5.js"></script>
-        <!-- see usage: http://formatjs.io/handlebars/ -->
-        <!-- script src="js/handlebars-intl-1.1.1/dist/handlebars-intl-with-locales.min.js"></script -->
-        <script src="js/handlebars-intl-with-locales.min.js"></script>
-
-
-        <!--
             Load stylesheet:
             -->
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/severity.css">
 
         <!-- 'title' is used as parameter value of switch_style -->
         <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
         <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
+    </head>
 
-        <!--
-            Load own JavaScript code:
-            -->
-        <script src="js/main.js"></script>
-        <script src="js/styling.js"></script>
-
-        <script>
-            HandlebarsIntl.registerWith(Handlebars);
-
-
-
-            // window.onload = function() {
-            // }
-
-        </script>
-
-        <!--
-            handle-bar scripts
-            -->
-        <script id="notes-template" type="text/x-handlebars-template">
-            {{#each this}}
-            <div class="pf-notes-row pf-flex">
-                <div class="pf-flex-notes-col1">
-                    <div class="pf-due-date">
-                        {{ formatRelative dueDate }}
-                    </div>
-                    <div class="pf-finished">
-                        <input type="checkbox" data-id={{id}} {{checkedIfTrue finishedDate}}>Finished
-                        {{#if finishedDate}}
-                            [{{ formatRelative finishedDate }}]
-                        {{/if}}
-                    </div>
-                </div>
-                <div class="pf-flex-notes-col2">
-                    <span>
-                        <div>{{title}}
-                            <span class="pf-severity">{{severity}}</span>
-                        </div>
-                        <div>{{{description}}}</div>
-                    </span>
-                </div>
-                <div class="pf-flex-notes-col3">
-                    <button class="pf-btn pf-edit-btn">Edit</button>
-                </div>
-            </div>
-            {{/each}}
-        </script>
-
-     </head>
     <body>
-
         <div id="menues">
             <div id="main-menue">
                 <button id="newNotesBtn" class="pf-btn pf-left">Create New Note</button>
@@ -118,33 +55,62 @@ function:		Base HTML. Do mind that different styles are applied so that we can l
 
         <!-- show notes: -->
 
-        <div id="notes-container">
-<!--            <div class="pf-notes-row pf-flex">
+        <div id="notes-container"></div>
+
+        <!--
+            Load libs:
+        -->
+        <script src="http://code.jquery.com/jquery-3.1.0.min.js"
+                integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+                crossorigin="anonymous" ></script>
+        <script src="js/handlebars-v4.0.5.js"></script>
+        <!-- see usage: http://formatjs.io/handlebars/ -->
+        <!-- script src="js/handlebars-intl-1.1.1/dist/handlebars-intl-with-locales.min.js"></script -->
+        <script src="js/handlebars-intl-with-locales.min.js"></script>
+
+
+        <!--
+        Load own JavaScript code:
+        -->
+        <!-- Load model/service *before* UI (otherwise initial entries not yet loaded) -->
+        <script src="js/model/note.js"></script>
+        <script src="js/service/notesService.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/styling.js"></script>
+        <script src="js/severity.js"></script>
+
+        <!--
+            handle-bar scripts
+            -->
+        <script id="notes-template" type="text/x-handlebars-template">
+            {{#each this}}
+            <div class="pf-notes-row pf-flex">
                 <div class="pf-flex-notes-col1">
-                    <span class="pf-due-date">
-                        Nächsten Mittwoch
-                    </span>
-                    <span class="pf-finished">
-                        <input type="checkbox" value="Finished">
-                    </span>
+                    <div class="pf-due-date">
+                        {{ formatRelative dueDate }}
+                    </div>
+                    <div class="pf-finished">
+                        <input type="checkbox" data-id={{id}} {{checkedIfTrue finishedDate}}>Finished
+                        {{#if finishedDate}}
+                        [{{ formatRelative finishedDate }}]
+                        {{/if}}
+                    </div>
                 </div>
                 <div class="pf-flex-notes-col2">
                     <span>
-                        <div>Einkaufen</div>
-                        <div> sdkfasöljflask fs klfa klösfj klakflaks lf kj sdakfsadkf kslflks ka klfsaj ölsd fkladköf asöf las fjajöl</div>
+                        <div>{{title}}
+                            <span class="pf-severity-widget">{{severity}}</span>
+                        </div>
+                        <div>{{{description}}}</div>
                     </span>
                 </div>
                 <div class="pf-flex-notes-col3">
-                    <button class="pf-btn pf-edit-btn">Edit</button>
+                    <button class="pf-btn pf-edit-btn"
+                            onclick={{{ editBtnListener id }}}>Edit</button>
                 </div>
-            </div> -->
-        </div>
-
-        <!-- Add your site or application content here -->
-
-<!--        <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>
-        <script src="js/main.js"></script>
--->
+            </div>
+            {{/each}}
+        </script>
     </body>
 </html>

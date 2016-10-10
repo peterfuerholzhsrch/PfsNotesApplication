@@ -14,6 +14,11 @@
     line-height: 15px;
 }
 
+input,
+textarea {
+    width: 100%;
+}
+
 /*
 body, html {
     margin: 0;
@@ -153,6 +158,35 @@ body, html {
 .pf-severity {
     float: right;
 }
+
+
+
 /**
- * Styles specific for note_edit.html:
+ * Styles specific for edit.html:
  */
+
+.pf-flex-edit-col1 {
+    flex: 0 0 30%;
+    margin: 5px;
+}
+
+.pf-flex-edit-col2 {
+    flex: 0 0 50%;
+    margin: 5px;
+}
+
+.pf-flex-edit-col3 {
+    flex: auto;
+    margin: 5px;
+}
+
+.pf-flex-fill {
+    flex: auto;
+}
+.pf-flex-right-aligned {
+    flex: 0 0 20%;
+}
+
+#severity-widget div {
+    float: none;
+}

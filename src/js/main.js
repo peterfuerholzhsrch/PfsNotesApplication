@@ -1,3 +1,4 @@
+"use strict";
 /********************************************************************************************************
  created by:    Peter Fuerholz
  project:		HSR CAS FEE
@@ -12,42 +13,14 @@
 var sortOrder = 0; // 0=Finish Date, 1=Creation Date, 2=Importance
 var filterFinishedActive = false;
 
-var notes = [
-    {
-        id: 1,
-        creationDate: new Date(2016, 8, 20),
-        title: "CAS FEE Selbststudium / Projekt-Aufgabe erledigen",
-        description: "HTML für die Notes Application erstellen. CSS erstellen für die Notes Application...",
-        severity: 1,
-        dueDate: new Date(2016, 7, 17),
-        finishedDate: new Date(2016, 8, 23) },
-    {
-        id: 2,
-        creationDate: new Date(2016, 8, 22),
-        title: "Einkaufen",
-        description: "Butter<br>Eier<br>Brot<br>...",
-        severity: 2,
-        dueDate: new Date(2016, 9, 4),
-        finishedDate: null },
-    {
-        id: 3,
-        creationDate: new Date(2016, 8, 19),
-        title: "Mami anrufen",
-        description: "888 888 88 88...",
-        severity: 3,
-        dueDate: null,
-        finishedDate: false },
-];
-
 var createNotesHtml;
-
-
 
 
 /**
  * Run when page is ready.
  */
 $(function() {
+    HandlebarsIntl.registerWith(Handlebars);
     // The checked-attribute on input tells with its presence (not its value) whether checkbox shall be selected or not.
     // Handlebars does not support that out of the box so we use following handler.
     // - see here: http://stackoverflow.com/questions/22794710/handlebars-conditionally-add-attribute
@@ -55,9 +28,15 @@ $(function() {
     Handlebars.registerHelper('checkedIfTrue', function (trueValue) {
         return trueValue ? 'checked' : '';
     });
+
+    Handlebars.registerHelper('editBtnListener', function (id) {
+        // passing over which one to edit via URL parameter (other way e.g. via LocaleSession):
+        return '"event.preventDefault(); window.location.assign(\'edit.html?id=' + id + '\')"';
+    })
     createNotesHtml = Handlebars.compile(document.getElementById("notes-template").innerText);
 
     // set listeners on menu buttons:
+    $("#newNotesBtn").on("click", routeToEdit);
 
     var filterFinishedBtn = $("#filter-finished-btn");
     filterFinishedBtn.on("click", toggleFilterOnFinished);
@@ -78,7 +57,7 @@ $(function() {
         if (!id) {
             return;  // not clicked onto checkbox...
         }
-        var note = seekNodeById(parseInt(id));
+        var note = seekNoteById(parseInt(id));
         if (note.finishedDate) {
             note.finishedDate = null;
         }
@@ -91,19 +70,26 @@ $(function() {
     renderNotes();
 });
 
-function renderNotes () {
-    $("#notes-container").html(createNotesHtml(getNotes(), { data: {intl: { locales: 'de-CH'}}}));
+
+function routeToEdit() {
+    window.location.assign("edit.html")
 }
 
-function seekNodeById(id) {
-    console.log('seekNodeById', id, ' typeof id=', typeof id);
-    var _note = null;
-    notes.forEach(function (note) {
-        if (note.id === id) {
-            _note = note;
-        }
-    });
-    return _note;
+
+function renderNotes () {
+    $("#notes-container").html(createNotesHtml(getNotes(), { data: {intl: { locales: 'de-CH'}}}));
+
+    // replace elements with class='pf-severity-widget' with severity widget:
+    var severityWidgetsPlaceholders = $('.pf-severity-widget');
+
+    // severityWidgetsPlaceholders and getNotes() MUST have same length!
+
+    // Doesn't work: for (var i in severityWidgetsPlaceholders){
+    // severityWidgetsPlaceholders has additional property 'length' which does not get overread -> getNotes()['length']
+    // produces error!
+    for (var i=0; i<severityWidgetsPlaceholders.length; ++i){
+        installSeverityWidgetOnEl($(severityWidgetsPlaceholders[i]), getNotes()[i], false/*editable*/);
+    }
 }
 
 
@@ -177,11 +163,11 @@ function sortNotesByImportance(notes) {
  * @returns {*}
  */
 function filterOnFinished(filterOnFinishedActive) {
-    return filterOnFinishedActive ? notes.filter(function(note) { return !!note.finishedDate; } ) : notes;
+    return filterOnFinishedActive ?
+        notesService.getNotes().filter(function(note) { return !!note.finishedDate; } ) : notesService.getNotes();
 }
 
 function getNotes() {
-    // console.log('getNotes', 'filterFinishedActive', filterFinishedActive, 'sortOrder', sortOrder);
     var _notes = filterOnFinished(filterFinishedActive);
 
     switch (sortOrder) {
@@ -197,6 +183,7 @@ function getNotes() {
         default:
             console.error("sortOrder out of range: ", sortOrder);
     }
+
     return _notes;
 }
 

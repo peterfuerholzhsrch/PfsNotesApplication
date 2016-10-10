@@ -1,0 +1,96 @@
+<!doctype html>
+
+<!-- ********************************************************************************************************
+created by:    Peter Fuerholz
+project:		HSR CAS FEE
+date:			10/2016
+version:		0.1
+function:		HTML for editing note.
+******************************************************************************************************** -->
+
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>PF's Notes Application</title>
+
+        <!--
+            Load libs:
+            -->
+        <script src="http://code.jquery.com/jquery-3.1.0.min.js"
+                integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+                crossorigin="anonymous" ></script>
+
+        <!--
+            Load stylesheet:
+            -->
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/severity.css">
+        <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
+        <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
+    </head>
+
+    <body>
+        <div class="pf-flex">
+            <label for="title-input" class="pf-flex-edit-col1">
+                Title
+            </label>
+            <div class="pf-flex-edit-col2">
+                <input id="title-input" type="text"/>
+            </div>
+            <div class="pf-flex-edit-col3">
+            </div>
+        </div>
+        <div class="pf-edit pf-flex">
+            <label for="description-input" class="pf-flex-edit-col1">
+                Description
+            </label>
+            <div class="pf-flex-edit-col2">
+                <textarea id="description-input" rows="4">
+                </textarea>
+            </div>
+            <div class="pf-flex-edit-col3">
+            </div>
+        </div>
+        <div class="pf-flex">
+            <label for="severity-widget" class="pf-flex-edit-col1">
+                Severity
+            </label>
+            <div class="pf-flex-edit-col2">
+                <div id="severity-widget"></div>
+            </div>
+            <div class="pf-flex-edit-col3">
+            </div>
+        </div>
+        <div class="pf-flex">
+            <label for="date-input" class="pf-flex-edit-col1">
+                Due date
+            </label>
+            <div class="pf-flex-edit-col2">
+                <input id="date-input" type="date"/>
+            </div>
+            <div class="pf-flex-edit-col3">
+            </div>
+        </div>
+
+        <div class="pf-flex">
+            <button id="saveNotesBtn" class="pf-btn pf-flex-fill">Save</button>
+        </div>
+        <div class="pf-flex">
+            <div class="pf-flex-fill"></div>
+            <button id="cancelBtn" class="pf-btn pf-flex-right-aligned">Cancel</button>
+        </div>
+
+
+        <!--
+        Load own JavaScript code:
+        -->
+        <!-- Load model/service *before* UI (otherwise initial entries not yet loaded) -->
+        <script src="js/model/note.js"></script>
+        <script src="js/service/notesService.js"></script>
+
+        <script src="js/styling.js"></script>
+        <script src="js/severity.js"></script>
+        <script src="js/edit.js"></script>
+    </body>
+</html>
