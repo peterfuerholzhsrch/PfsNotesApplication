@@ -4,7 +4,7 @@
  *
  * Here we implement the module for managing Notes.
  */
-var notesService = (function() {
+var notesService = (function($) {
 
     // used for generating next Note id
     var nextId = 0;
@@ -110,4 +110,4 @@ var notesService = (function() {
         saveNote: saveNote,
         editNote: editNote
     };
-}());
+}(jQuery));

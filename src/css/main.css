@@ -18,6 +18,11 @@ input,
 textarea {
     width: 100%;
 }
+input[type = 'checkbox'] {
+    width: inherit;
+    margin: 3px;
+}
+
 
 /*
 body, html {
@@ -82,15 +87,6 @@ body, html {
     padding: 5px;/* 10px;*/
     border-radius: 0px 6px 6px 0px; /* top left, top right, bottom right, bottom left */
 }
-
-
-/*
-.pf-select-div select option {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}*/
-
 
 
 
@@ -159,6 +155,9 @@ body, html {
     float: right;
 }
 
+.pf-notes-item-title {
+    font-weight: bold;
+}
 
 
 /**
