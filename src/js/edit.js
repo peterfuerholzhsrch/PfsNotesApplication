@@ -18,11 +18,11 @@
     $(function() {
 
         // set listeners on menu buttons:
-        $("#saveNotesBtn").on("click", function(event) { saveEdit(); routeToOverview(); });
-        $("#cancelBtn").on("click", routeToOverview);
+        $("#saveNotesBtn").on("click", function(event) { privateSaveEdit(); privateRouteToOverview(); });
+        $("#cancelBtn").on("click", privateRouteToOverview);
 
         // eval URL parameter to find out which item to edit:
-        var paramValue = _getUrlParameter('id');
+        var paramValue = privateGetUrlParameter('id');
 
         console.log('edit: paramValue=', paramValue);
 
@@ -45,12 +45,12 @@
         $('#date-input').val(new Date(note.dueDate).toISOString().slice(0, 10));  // format: yyyy-MM-dd
         //$('#title-input').value = note.title;
         // replace 'div' with severity widget:
-        severity.installSeverityWidgetOn("#severity-widget", note, true); // TODO real value!!!
+        severity.installSeverityWidgetOn("#severity-widget", note, true);
 
         // TODO catch error and show it!!!
     });
 
-    function _getUrlParameter(param) {
+    function privateGetUrlParameter(param) {
         // taken from http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
         var sPageURL = window.location.search.substring(1);
         var sURLVariables = sPageURL.split('&');
@@ -65,12 +65,12 @@
     }
 
 
-    function routeToOverview() {
+    function privateRouteToOverview() {
         window.location.assign("index.html");
     }
 
 
-    function saveEdit() {
+    function privateSaveEdit() {
         // update note / take over changes from the UI:
         note.title = $('#title-input').val();
         note.description = $('#description-input').val();

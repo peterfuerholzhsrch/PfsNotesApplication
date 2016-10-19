@@ -7,106 +7,80 @@
  function:	    Javascript for change styling. This code must be included in every HTML page supporting switchable
                 styling. The stylesheet links must have a 'title'-attribute defined, e.g.:
  <code>
-     <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
+     <link rel="stylesheet"           type="text/css" title="styleBw"    href="css/bw.css">
      <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
  </code
  ********************************************************************************************************/
 
 
-$(function() {
-    var styleSelector = document.querySelector("#stylesSelect");
-    var style = set_style_from_cookie();
-    if (styleSelector) {
-        // current document hasn't got a selector (e.g. edit.hmtl)
-        styleSelector.addEventListener("change", setStyle);
-        styleSelector.value = style; // UI shall reflect current value
+(function($) {
+
+    /**
+     * Run on startup
+     */
+    $(function() {
+        var styleSelector = document.querySelector("#stylesSelect");
+        var style = privateSetStyleFromCookie();
+        if (styleSelector) {
+            styleSelector.addEventListener("change", privateSetStyle);
+            styleSelector.value = style; // UI shall reflect current value
+        }
+        // else: current document hasn't got a selector (e.g. edit.hmtl)
+    });
+
+    function privateSetStyle(event) {
+        console.log("event.target.value=", event.target.value);
+        switchStyle(event.target.value);
     }
-});
-
-function setStyle(event) {
-    console.log("event.target.value=", event.target.value);
-    switch_style(event.target.value);
-}
 
 
-/**
- * Following code is copied almost 1:1 from http://www.thesitewizard.com/javascripts/change-style-sheets.shtml:
- * This code allows to switch dynamically a stylesheet.
- */
+    /**
+     * Following code is copied from http://www.thesitewizard.com/javascripts/change-style-sheets.shtml and updated
+     * that the current setting is saved in localStorage instead of a cookie:
+     * This code allows to switch dynamically a stylesheet.
+     */
 
-// *** TO BE CUSTOMISED ***
+    // *** TO BE CUSTOMISED ***
+    // *** END OF CUSTOMISABLE SECTION ***
+    // You do not need to customise anything below this line
 
-var style_cookie_name = "style" ;
-var style_cookie_duration = 30 ; // days
-var style_domain = "peterfuerholzhsrch.github.com" ;
-
-// *** END OF CUSTOMISABLE SECTION ***
-// You do not need to customise anything below this line
-
-/**
- * This function enables / disables the stylesheet of the current document according to set css_title.
- * @param css_title
- */
-function switch_style ( css_title )
-{
-// You may use this script on your site free of charge provided
-// you do not remove this notice or the URL below. Script from
-// http://www.thesitewizard.com/javascripts/change-style-sheets.shtml
-    var i, link_tag ;
-    for (i = 0, link_tag = document.getElementsByTagName("link") ;
-         i < link_tag.length ; i++ ) {
-        if ((link_tag[i].rel.indexOf( "stylesheet" ) != -1) &&
-            link_tag[i].title) {
-            link_tag[i].disabled = true ;
-            if (link_tag[i].title == css_title) {
-                link_tag[i].disabled = false ;
+    /**
+     * This function enables / disables the stylesheet of the current document according to set css_title.
+     * @param css_title
+     */
+    function switchStyle ( css_title )
+    {
+    // You may use this script on your site free of charge provided
+    // you do not remove this notice or the URL below. Script from
+    // http://www.thesitewizard.com/javascripts/change-style-sheets.shtml
+        var i, link_tag ;
+        for (i = 0, link_tag = document.getElementsByTagName("link") ;
+             i < link_tag.length ; i++ ) {
+            if ((link_tag[i].rel.indexOf( "stylesheet" ) != -1) &&
+                link_tag[i].title) {
+                link_tag[i].disabled = true ;
+                if (link_tag[i].title == css_title) {
+                    link_tag[i].disabled = false ;
+                }
             }
+
+            notesService.setStyle(css_title);
         }
-        set_cookie( style_cookie_name, css_title,
-            style_cookie_duration, style_domain );
     }
-}
-/**
- * @return current style (= cookie value)
- */
-function set_style_from_cookie()
-{
-    var css_title = get_cookie( style_cookie_name );
-    if (css_title && css_title.length) {
-        switch_style( css_title );
-    }
-    return css_title;
-}
-function set_cookie ( cookie_name, cookie_value,
-                      lifespan_in_days, valid_domain )
-{
-    // console.log('set_cookie', cookie_name, cookie_value, lifespan_in_days, valid_domain);
 
-    // http://www.thesitewizard.com/javascripts/cookies.shtml
-    var domain_string = valid_domain ? ("; domain=" + valid_domain) : '' ;
-
-    var cookieString = cookie_name + "=" + encodeURIComponent( cookie_value );
-    // commented out since Chrome does not set cookies on local server (http://stackoverflow.com/questions/8105135/cannot-set-cookies-in-javascript)
-    // +
-    //     "; max-age=" + 60 * 60 * 24 * lifespan_in_days +
-    //     "; path=/" + domain_string;
-    document.cookie = cookieString;
-}
-function get_cookie ( cookie_name )
-{
-    // http://www.thesitewizard.com/javascripts/cookies.shtml
-    var cookie_string = document.cookie ;
-    if (cookie_string.length != 0) {
-        // \s = whitespaces
-        var cookie_value = cookie_string.match('(^|;)[\\s]*' + cookie_name + '=([^;]*)');
-        // console.log('get_cookie, cookie_string="', cookie_string, '" cookie_value=', cookie_value); // TODO
-        if (!cookie_value) {
-            return null;
+    /**
+     * @return current style (= cookie value)
+     */
+    function privateSetStyleFromCookie()
+    {
+        var css_title = notesService.getStyle();
+        if (css_title && css_title.length) {
+            switchStyle( css_title );
         }
-        var value = decodeURIComponent ( cookie_value[cookie_value.length-1] ) ;
-
-        // console.log('get_cookie', cookie_name, value);
-        return value;
+        return css_title;
     }
-    return '' ;
-}
+
+    return {
+        // nothing
+    };
+}(jQuery));

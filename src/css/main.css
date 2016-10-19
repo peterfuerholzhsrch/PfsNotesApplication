@@ -159,6 +159,19 @@ body, html {
     font-weight: bold;
 }
 
+details {
+    border: 3px groove;
+    padding: 2px;
+    background-color: white;
+}
+
+details:not([open]) > summary {
+    max-height: 2.8em;
+    overflow: hidden;
+    /* 'text-overflow: ellipsis;' : Does only work when 'white-space: nowrap' and width set to fixed value. */
+}
+
+
 
 /**
  * Styles specific for edit.html:

@@ -20,7 +20,7 @@ function:		Base HTML.
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/severity.css">
 
-        <!-- 'title' is used as parameter value of switch_style -->
+        <!-- 'title' is used as parameter value of switchStyle -->
         <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
         <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
     </head>
@@ -102,7 +102,7 @@ function:		Base HTML.
                         <div><span class="pf-notes-item-title">{{title}}</span>
                             <span class="pf-severity-widget">{{severity}}</span>
                         </div>
-                        <div>{{{description}}}</div>
+                        <details id=details-{{ id }}><summary>{{{description}}}</summary></details>
                     </span>
                 </div>
                 <div class="pf-flex-notes-col3">

@@ -14,7 +14,7 @@ var severity = (function($) {
     var MAX_SEVERITY = 5;
 
 
-    function checkSeverityRange(severity) {
+    function publicCheckSeverityRange(severity) {
         if (!severity || severity < MIN_SEVERITY || severity > MAX_SEVERITY) {
             throw new Error('severity value=' + severity + ' out of range: [' + MIN_SEVERITY +'..' + MAX_SEVERITY + ']');
         }
@@ -25,7 +25,7 @@ var severity = (function($) {
      *
      * @param enabled boolean
      */
-    function _createHtml(enabled) {
+    function privateCreateHtml(enabled) {
         var disabledStr = enabled ? '' : 'disabled';
         // button used for CGAG
         var template = '<div class="pf-severity">'
@@ -45,9 +45,9 @@ var severity = (function($) {
      * @param setGetValue where the severity is to be set/read; accesses 'severity' property
      * @param editable true: severity widget is editable; otherwise read-only
      */
-    function installSeverityWidgetOn(cssPath, setGetValue, editable) {
+    function publicInstallSeverityWidgetOn(cssPath, setGetValue, editable) {
         var elements = $(cssPath);
-        installSeverityWidgetOnEl(elements, setGetValue, editable);
+        publicInstallSeverityWidgetOnEl(elements, setGetValue, editable);
     }
 
     /**
@@ -57,18 +57,18 @@ var severity = (function($) {
      * @param setGetValue setGetValue where the severity is to be set/read; accesses 'severity' property
      * @param editable true: severity widget is editable; otherwise read-only
      */
-    function installSeverityWidgetOnEl(elements, setGetValue, editable) {
+    function publicInstallSeverityWidgetOnEl(elements, setGetValue, editable) {
         elements.on("click", function (event) {
             event.preventDefault();
             //var id = event.delegateTarget.getAttribute("data-id");
             var value = event.target.getAttribute("data-value");
-            _setSeverity(elements, setGetValue, value, editable);
+            privateSetSeverity(elements, setGetValue, value, editable);
         });
 
         // render all severity-"components":
         elements.each(function (idx, element) {
-            $(element).html(_createHtml(editable));
-            _updateSeverity(elements, setGetValue.severity, editable);
+            $(element).html(privateCreateHtml(editable));
+            privateUpdateSeverity(elements, setGetValue.severity, editable);
         });
 
         // show bold when editable (must be done *after* element got rendered!)
@@ -76,12 +76,10 @@ var severity = (function($) {
             elements.find(".pf-severity-cell").hover(
                 /*in*/
                 function (event) {
-                    console.log("installSeverityWidgetOn", 'onHover'); // TODO
                     $(event.target).addClass('pf-severity-cell-editable');
                 },
                 /*out*/
                 function (event) {
-                    console.log("installSeverityWidgetOn", 'onBlur'); // TODO
                     $(event.target).removeClass('pf-severity-cell-editable');
                 }
             )
@@ -93,12 +91,12 @@ var severity = (function($) {
      * @param id
      * @param value
      */
-    function _setSeverity(elements, setGetValue, value) {
+    function privateSetSeverity(elements, setGetValue, value) {
         if (setGetValue.severity === value) {
             return;
         }
         setGetValue.severity = value;
-        _updateSeverity(elements, value);
+        privateUpdateSeverity(elements, value);
     }
 
 
@@ -107,7 +105,7 @@ var severity = (function($) {
      * @param cssPath
      * @param value
      */
-    function _updateSeverity(elements, value, editable) {
+    function privateUpdateSeverity(elements, value, editable) {
         // console.log('_updateSeverity: elements', elements, ' value', value);
 
         // update UI:
@@ -123,8 +121,8 @@ var severity = (function($) {
     }
 
     return {
-        checkSeverityRange: checkSeverityRange,
-        installSeverityWidgetOn: installSeverityWidgetOn,
-        installSeverityWidgetOnEl: installSeverityWidgetOnEl
+        checkSeverityRange: publicCheckSeverityRange,
+        installSeverityWidgetOn: publicInstallSeverityWidgetOn,
+        installSeverityWidgetOnEl: publicInstallSeverityWidgetOnEl
     };
 }(jQuery));

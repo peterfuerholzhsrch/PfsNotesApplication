@@ -32,22 +32,22 @@
         Handlebars.registerHelper('editBtnListener', function (id) {
             // passing over which one to edit via URL parameter (other way e.g. via LocaleSession):
             return '"event.preventDefault(); window.location.assign(\'edit.html?id=' + id + '\')"';
-        })
+        });
         createNotesHtml = Handlebars.compile(document.getElementById("notes-template").innerText);
 
         // set listeners on menu buttons:
-        $("#newNotesBtn").on("click", routeToEdit);
+        $("#newNotesBtn").on("click", privateRouteToEdit);
 
         var filterFinishedBtn = $("#filter-finished-btn");
-        filterFinishedBtn.on("click", toggleFilterOnFinished);
+        filterFinishedBtn.on("click", privateToggleFilterOnFinished);
 
         var sortByFinishDateBtn = $("#sort-by-finish-date-btn");
-        sortByFinishDateBtn.on(  "click", { sortOrder: 0}, setSortOrder);
+        sortByFinishDateBtn.on(  "click", { sortOrder: 0}, privateSetSortOrder);
         var sortByCreationDateBtn = $("#sort-by-creation-date-btn");
-        sortByCreationDateBtn.on("click", { sortOrder: 1}, setSortOrder);
+        sortByCreationDateBtn.on("click", { sortOrder: 1}, privateSetSortOrder);
         var sortByImportanceBtn = $("#sort-by-importance-btn");
-        sortByImportanceBtn.on(  "click", { sortOrder: 2}, setSortOrder);
-        updateSortOrderUi();
+        sortByImportanceBtn.on(  "click", { sortOrder: 2}, privateSetSortOrder);
+        privateUpdateSortOrderUi();
 
         // set listener on notes-container to listen for 'finished' actions:
         var notesContainerDiv = $("#notes-container");
@@ -65,19 +65,19 @@
             }
             notesService.saveNote(note);
 
-            renderNotes(); // rerender to show updated finished-timestamp
+            privateRenderNotes(); // rerender to show updated finished-timestamp
         });
 
-        renderNotes();
+        privateRenderNotes();
     });
 
 
-    function routeToEdit() {
+    function privateRouteToEdit() {
         window.location.assign("edit.html")
     }
 
 
-    function renderNotes () {
+    function privateRenderNotes () {
         $("#notes-container").html(createNotesHtml(getNotes(), { data: {intl: { locales: 'de-CH'}}}));
 
         // replace elements with class='pf-severity-widget' with severity widget:
@@ -93,16 +93,16 @@
         }
     }
 
-    function setSortOrder(event) {
+    function privateSetSortOrder(event) {
         var sortNb = event.data.sortOrder;
         if (sortNb === sortOrder) {
             return; // avoid rerendering
         }
         sortOrder = sortNb;
-        updateSortOrderUi();
+        privateUpdateSortOrderUi();
     }
 
-    function updateSortOrderUi() {
+    function privateUpdateSortOrderUi() {
         // update UI:
         var sortByFinishDateBtn = $("#sort-by-finish-date-btn");
         sortOrder == 0 ? sortByFinishDateBtn.addClass("pf-btn-pressed") : sortByFinishDateBtn.removeClass("pf-btn-pressed");
@@ -110,50 +110,50 @@
         sortOrder == 1 ? sortByCreationDateBtn.addClass("pf-btn-pressed") : sortByCreationDateBtn.removeClass("pf-btn-pressed");
         var sortByImportanceBtn = $("#sort-by-importance-btn");
         sortOrder == 2 ? sortByImportanceBtn.addClass("pf-btn-pressed") : sortByImportanceBtn.removeClass("pf-btn-pressed");
-        renderNotes();
+        privateRenderNotes();
     }
 
-    function getSortOrder() {
+    function privateGetSortOrder() {
         return sortOrder;
     }
 
-    function toggleFilterOnFinished() {
-        setFilterOnFinishedActive(!filterFinishedActive);
+    function privateToggleFilterOnFinished() {
+        privateSetFilterOnFinishedActive(!filterFinishedActive);
     }
 
-    function setFilterOnFinishedActive(active) {
+    function privateSetFilterOnFinishedActive(active) {
         if (filterFinishedActive === active) {
             return; // avoid rerendering
         }
         $("#filter-finished-btn").toggleClass("pf-btn-pressed");
 
         filterFinishedActive = active;
-        renderNotes();
+        privateRenderNotes();
     }
 
-    function isFilterFinishedActive() {
+    function privateIsFilterFinishedActive() {
         return filterFinishedActive;
     }
 
 
-    function sortNotesByFinishDate(notes) {
+    function privateSortNotesByFinishDate(notes) {
         var compareByFinishDate = function compareNotes(s1, s2) {
             return s1.dueDate < s2.dueDate;
-        }
+        };
         return notes.sort(compareByFinishDate);
     }
 
-    function sortNotesByCreationDate(notes) {
+    function privateSortNotesByCreationDate(notes) {
         var compareByCreationDate = function compareNotes(s1, s2) {
             return s1.creationDate < s2.creationDate;
-        }
+        };
         return notes.sort(compareByCreationDate);
     }
 
-    function sortNotesByImportance(notes) {
+    function privateSortNotesByImportance(notes) {
         var compareByImportance = function compareNotes(s1, s2) {
             return s1.severity < s2.severity;
-        }
+        };
         return notes.sort(compareByImportance);
     }
 
@@ -162,29 +162,29 @@
      * @param filterOnFinishedActive If true only the finished notes are returned. If false <b>all notes</b> are returned.
      * @returns {*}
      */
-    function filterOnFinished(filterOnFinishedActive) {
+    function privateFilterOnFinished(filterOnFinishedActive) {
         return filterOnFinishedActive ?
             notesService.getNotes().filter(function(note) { return !!note.finishedDate; } ) : notesService.getNotes();
     }
 
     function getNotes() {
-        var _notes = filterOnFinished(filterFinishedActive);
+        var notes = privateFilterOnFinished(filterFinishedActive);
 
         switch (sortOrder) {
             case 0:
-                _notes = sortNotesByFinishDate(_notes);
+                notes = privateSortNotesByFinishDate(notes);
                 break;
             case 1:
-                _notes = sortNotesByCreationDate(_notes);
+                notes = privateSortNotesByCreationDate(notes);
                 break;
             case 2:
-                _notes = sortNotesByImportance(_notes);
+                notes = privateSortNotesByImportance(notes);
                 break;
             default:
                 console.error("sortOrder out of range: ", sortOrder);
         }
 
-        return _notes;
+        return notes;
     }
 
     return {
