@@ -24,11 +24,13 @@ var severity = (function($) {
     /**
      *
      * @param enabled boolean
+     * @param id element id (optional)
      */
-    function privateCreateHtml(enabled) {
+    function privateCreateHtml(enabled, id) {
         var disabledStr = enabled ? '' : 'disabled';
+        var idString = id ? " id='" + id + "'" : "";
         // button used for CGAG
-        var template = '<div class="pf-severity">'
+        var template = '<div class="pf-severity"' + idString + '>'
             + '  <button class="pf-severity-cell" data-value="1" ' + disabledStr + '>*</button>'
             + '  <button class="pf-severity-cell" data-value="2" ' + disabledStr + '>*</button>'
             + '  <button class="pf-severity-cell" data-value="3" ' + disabledStr + '>*</button>'
@@ -44,10 +46,11 @@ var severity = (function($) {
      * @param cssPath element(s) which inner content shall be replaced by the severity widget
      * @param setGetValue where the severity is to be set/read; accesses 'severity' property
      * @param editable true: severity widget is editable; otherwise read-only
+     * @param id element id (optional)
      */
-    function publicInstallSeverityWidgetOn(cssPath, setGetValue, editable) {
+    function publicInstallSeverityWidgetOn(cssPath, setGetValue, editable, id) {
         var elements = $(cssPath);
-        publicInstallSeverityWidgetOnEl(elements, setGetValue, editable);
+        publicInstallSeverityWidgetOnEl(elements, setGetValue, editable, id);
     }
 
     /**
@@ -56,18 +59,18 @@ var severity = (function($) {
      * @param elements one or more jQuery elements
      * @param setGetValue setGetValue where the severity is to be set/read; accesses 'severity' property
      * @param editable true: severity widget is editable; otherwise read-only
+     * @param id element id (optional)
      */
-    function publicInstallSeverityWidgetOnEl(elements, setGetValue, editable) {
+    function publicInstallSeverityWidgetOnEl(elements, setGetValue, editable, id) {
         elements.on("click", function (event) {
             event.preventDefault();
-            //var id = event.delegateTarget.getAttribute("data-id");
             var value = event.target.getAttribute("data-value");
             privateSetSeverity(elements, setGetValue, value, editable);
         });
 
         // render all severity-"components":
         elements.each(function (idx, element) {
-            $(element).html(privateCreateHtml(editable));
+            $(element).html(privateCreateHtml(editable, id));
             privateUpdateSeverity(elements, setGetValue.severity, editable);
         });
 
@@ -106,8 +109,6 @@ var severity = (function($) {
      * @param value
      */
     function privateUpdateSeverity(elements, value, editable) {
-        // console.log('_updateSeverity: elements', elements, ' value', value);
-
         // update UI:
         var levelItems = elements.find(".pf-severity-cell");
         levelItems.each(function (idx, levelItem) {

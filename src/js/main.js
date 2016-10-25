@@ -36,7 +36,7 @@
         createNotesHtml = Handlebars.compile(document.getElementById("notes-template").innerText);
 
         // set listeners on menu buttons:
-        $("#newNotesBtn").on("click", privateRouteToEdit);
+        $("#new-notes-btn").on("click", privateRouteToEdit);
 
         var filterFinishedBtn = $("#filter-finished-btn");
         filterFinishedBtn.on("click", privateToggleFilterOnFinished);

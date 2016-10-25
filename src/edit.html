@@ -26,17 +26,17 @@ function:		HTML for editing note.
             -->
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/severity.css">
-        <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
-        <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
+        <link rel="stylesheet"           type="text/css" title="style-bw" href="css/bw.css">
+        <link rel="alternate stylesheet" type="text/css" title="style-blues" href="css/blues.css">
     </head>
 
     <body>
         <div class="pf-flex">
             <label for="title-input" class="pf-flex-edit-col1">
-                Title
+                Title*
             </label>
             <div class="pf-flex-edit-col2">
-                <input id="title-input" type="text"/>
+                <input id="title-input" type="text" required/>
             </div>
             <div class="pf-flex-edit-col3">
             </div>
@@ -53,7 +53,8 @@ function:		HTML for editing note.
             </div>
         </div>
         <div class="pf-flex">
-            <label for="severity-widget" class="pf-flex-edit-col1">
+            <!-- 'for' attribute cannot be set properly here since widget is dynamically placed. -->
+            <label class="pf-flex-edit-col1">
                 Severity
             </label>
             <div class="pf-flex-edit-col2">
@@ -67,7 +68,7 @@ function:		HTML for editing note.
                 Due date
             </label>
             <div class="pf-flex-edit-col2">
-                <input id="date-input" type="date"/>
+                <input id="date-input" type="date" required/>
             </div>
             <div class="pf-flex-edit-col3">
             </div>
@@ -91,6 +92,7 @@ function:		HTML for editing note.
         <script src="js/service/notesService.js"></script>
 
         <script src="js/styling.js"></script>
+        <script src="js/validation/validation.js"></script>
         <script src="js/edit.js"></script>
     </body>
 </html>

@@ -7,8 +7,8 @@
  function:	    Javascript for change styling. This code must be included in every HTML page supporting switchable
                 styling. The stylesheet links must have a 'title'-attribute defined, e.g.:
  <code>
-     <link rel="stylesheet"           type="text/css" title="styleBw"    href="css/bw.css">
-     <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
+     <link rel="stylesheet"           type="text/css" title="style-bw"    href="css/bw.css">
+     <link rel="alternate stylesheet" type="text/css" title="style-blues" href="css/blues.css">
  </code
  ********************************************************************************************************/
 
@@ -19,7 +19,7 @@
      * Run on startup
      */
     $(function() {
-        var styleSelector = document.querySelector("#stylesSelect");
+        var styleSelector = document.querySelector("#styles-select");
         var style = privateSetStyleFromCookie();
         if (styleSelector) {
             styleSelector.addEventListener("change", privateSetStyle);
@@ -40,19 +40,15 @@
      * This code allows to switch dynamically a stylesheet.
      */
 
-    // *** TO BE CUSTOMISED ***
-    // *** END OF CUSTOMISABLE SECTION ***
-    // You do not need to customise anything below this line
-
     /**
      * This function enables / disables the stylesheet of the current document according to set css_title.
      * @param css_title
      */
     function switchStyle ( css_title )
     {
-    // You may use this script on your site free of charge provided
-    // you do not remove this notice or the URL below. Script from
-    // http://www.thesitewizard.com/javascripts/change-style-sheets.shtml
+        // You may use this script on your site free of charge provided
+        // you do not remove this notice or the URL below. Script from
+        // http://www.thesitewizard.com/javascripts/change-style-sheets.shtml
         var i, link_tag ;
         for (i = 0, link_tag = document.getElementsByTagName("link") ;
              i < link_tag.length ; i++ ) {

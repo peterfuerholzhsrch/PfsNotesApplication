@@ -18,7 +18,11 @@
     $(function() {
 
         // set listeners on menu buttons:
-        $("#saveNotesBtn").on("click", function(event) { privateSaveEdit(); privateRouteToOverview(); });
+        $("#saveNotesBtn").on("click", function(event) {
+            if (privateSaveEdit()) {
+                privateRouteToOverview();
+            }
+        });
         $("#cancelBtn").on("click", privateRouteToOverview);
 
         // eval URL parameter to find out which item to edit:
@@ -45,7 +49,7 @@
         $('#date-input').val(new Date(note.dueDate).toISOString().slice(0, 10));  // format: yyyy-MM-dd
         //$('#title-input').value = note.title;
         // replace 'div' with severity widget:
-        severity.installSeverityWidgetOn("#severity-widget", note, true);
+        severity.installSeverityWidgetOn("#severity-widget", note, true, "severity-widget");
 
         // TODO catch error and show it!!!
     });
@@ -70,17 +74,37 @@
     }
 
 
+    /**
+     * @return false if there are validation errors
+     */
     function privateSaveEdit() {
+
+        // check values:
+        var titleInput = $('#title-input');
+        // call '[0]' since validateField expects DOM object (not jQuery-obj)
+        if (!validation.validateField(titleInput[0])) {
+            return false; // validation error
+        }
+        var descriptionTextarea = $('#description-input');
+        if (!validation.validateField(descriptionTextarea[0])) {
+            return false; // validation error
+        }
+        var duedateInput = $('#date-input');
+        if (!validation.validateField(duedateInput[0])) {
+            return false; // validation error
+        }
+
         // update note / take over changes from the UI:
-        note.title = $('#title-input').val();
-        note.description = $('#description-input').val();
-        note.dueDate = $('#date-input').val();
+        note.title = titleInput.val();
+        note.description = descriptionTextarea.val();
+        note.dueDate = duedateInput.val();
         //$('#title-input').value = note.title;
         // severity is updated by the widget...
 
         // save it:
         notesService.saveNote(note);
         note = null;
+        return true;
     }
 
     return {

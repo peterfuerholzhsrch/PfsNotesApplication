@@ -55,6 +55,15 @@ var notesService = (function($) {
         if (!notes) {
             var notesStr = localStorage.getItem(NOTES_PERSISTENCE_KEY);
             notes = notesStr ? JSON.parse(notesStr) : null;
+
+            if (notes) {
+                // update / init nextId:
+                var maxId = 0;
+                notes.forEach(function (note) {
+                    maxId = Math.max(maxId, note.id);
+                })
+                nextId = ++maxId;
+            }
         }
         return notes;
     }

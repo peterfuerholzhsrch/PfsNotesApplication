@@ -21,18 +21,18 @@ function:		Base HTML.
         <link rel="stylesheet" type="text/css" href="css/severity.css">
 
         <!-- 'title' is used as parameter value of switchStyle -->
-        <link rel="stylesheet"           type="text/css" title="styleBw" href="css/bw.css">
-        <link rel="alternate stylesheet" type="text/css" title="styleBlues" href="css/blues.css">
+        <link rel="stylesheet"           type="text/css" title="style-bw" href="css/bw.css">
+        <link rel="alternate stylesheet" type="text/css" title="style-blues" href="css/blues.css">
     </head>
 
     <body>
-        <div id="menues">
+        <nav id="menues">
             <div id="main-menue">
-                <button id="newNotesBtn" class="pf-btn pf-left">Create New Note</button>
+                <button id="new-notes-btn" class="pf-btn pf-left">Create New Note</button>
                 <div class="pf-select-div pf-right">
-                    <select id="stylesSelect">
-                        <option value="styleBw">Black/White Style</option>
-                        <option value="styleBlues">Blues Style</option>
+                    <select id="styles-select">
+                        <option value="style-bw">Black/White Style</option>
+                        <option value="style-blues">Blues Style</option>
                     </select>
                 </div>
             </div>
@@ -51,11 +51,11 @@ function:		Base HTML.
                 </div>
                 <button id="filter-finished-btn" class="pf-btn pf-right">Show Finished</button>
             </div>
-        </div>
+        </nav>
 
         <!-- show notes: -->
 
-        <div id="notes-container"></div>
+        <table id="notes-container"></table>
 
         <!--
             Load libs:
@@ -63,10 +63,10 @@ function:		Base HTML.
         <script src="http://code.jquery.com/jquery-3.1.0.min.js"
                 integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
                 crossorigin="anonymous" ></script>
-        <script src="js/handlebars-v4.0.5.js"></script>
+        <script src="../lib/handlebars-v4.0.5.js"></script>
         <!-- see usage: http://formatjs.io/handlebars/ -->
         <!-- script src="js/handlebars-intl-1.1.1/dist/handlebars-intl-with-locales.min.js"></script -->
-        <script src="js/handlebars-intl-with-locales.min.js"></script>
+        <script src="../lib/handlebars-intl-with-locales.min.js"></script>
 
 
         <!--
@@ -85,8 +85,8 @@ function:		Base HTML.
             -->
         <script id="notes-template" type="text/x-handlebars-template">
             {{#each this}}
-            <div class="pf-notes-row pf-flex">
-                <div class="pf-flex-notes-col1">
+            <tr class="pf-notes-row pf-flex">
+                <td class="pf-flex-notes-col1">
                     <div class="pf-due-date">
                         {{ formatRelative dueDate }}
                     </div>
@@ -96,20 +96,20 @@ function:		Base HTML.
                         [{{ formatRelative finishedDate }}]
                         {{/if}}
                     </div>
-                </div>
-                <div class="pf-flex-notes-col2">
-                    <span>
+                </td>
+                <td class="pf-flex-notes-col2">
+                    <div>
                         <div><span class="pf-notes-item-title">{{title}}</span>
                             <span class="pf-severity-widget">{{severity}}</span>
                         </div>
                         <details id=details-{{ id }}><summary>{{{description}}}</summary></details>
-                    </span>
-                </div>
-                <div class="pf-flex-notes-col3">
+                    </div>
+                </td>
+                <td class="pf-flex-notes-col3">
                     <button class="pf-btn pf-edit-btn"
                             onclick={{{ editBtnListener id }}}>Edit</button>
-                </div>
-            </div>
+                </td>
+            </tr>
             {{/each}}
         </script>
     </body>

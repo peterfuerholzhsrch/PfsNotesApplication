@@ -24,11 +24,14 @@ input[type = 'checkbox'] {
 }
 
 
-/*
-body, html {
-    margin: 0;
+/* input validations are shown with the aria-invalid attribute:*/
+input[aria-invalid="true"],
+textarea[aria-invalid="true"]
+{
+    border:1px solid #f00;
+    box-shadow:0 0 4px 0 #f00;
 }
-*/
+
 
 /**
  * menues is only needed for background filler hack (nowadays we use flex!)
@@ -121,6 +124,11 @@ body, html {
     margin: 0;
     clear: both;
     background-color: white;
+}
+
+table#notes-container {
+    display: block;
+    width: 100%;
 }
 
 .pf-flex {
