@@ -18,7 +18,7 @@
     $(function() {
 
         // set listeners on menu buttons:
-        $("#saveNotesBtn").on("click", function(event) {
+        $("#saveNotesBtn").on("click", function() {
             if (privateSaveEdit()) {
                 privateRouteToOverview();
             }
@@ -56,14 +56,14 @@
 
     function privateGetUrlParameter(param) {
         // taken from http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
-        var sPageURL = window.location.search.substring(1);
-        var sURLVariables = sPageURL.split('&');
-        for (var i = 0; i < sURLVariables.length; i++)
+        var pageUrl = window.location.search.substring(1);
+        var urlVariables = pageUrl.split('&');
+        for (var i = 0; i < urlVariables.length; i++)
         {
-            var sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0] == param)
+            var parameterName = urlVariables[i].split('=');
+            if (parameterName[0] == param)
             {
-                return sParameterName[1];
+                return parameterName[1];
             }
         }
     }

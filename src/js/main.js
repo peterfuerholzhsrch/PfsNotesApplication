@@ -20,22 +20,15 @@
      * Run when page is ready.
      */
     $(function() {
-        HandlebarsIntl.registerWith(Handlebars);
-        // The checked-attribute on input tells with its presence (not its value) whether checkbox shall be selected or not.
-        // Handlebars does not support that out of the box so we use following handler.
-        // - see here: http://stackoverflow.com/questions/22794710/handlebars-conditionally-add-attribute
-        // - unfortunately we cannot place JS code into the handlebar code -> helper here less generic
-        Handlebars.registerHelper('checkedIfTrue', function (trueValue) {
-            return trueValue ? 'checked' : '';
-        });
-
+        // HandleBar helpers specific for index.html:
         Handlebars.registerHelper('editBtnListener', function (id) {
             // passing over which one to edit via URL parameter (other way e.g. via LocaleSession):
             return '"event.preventDefault(); window.location.assign(\'edit.html?id=' + id + '\')"';
         });
         createNotesHtml = Handlebars.compile(document.getElementById("notes-template").innerText);
 
-        // set listeners on menu buttons:
+        // set listeners on menu buttons / initialize components:
+
         $("#new-notes-btn").on("click", privateRouteToEdit);
 
         var filterFinishedBtn = $("#filter-finished-btn");
@@ -96,7 +89,7 @@
     function privateSetSortOrder(event) {
         var sortNb = event.data.sortOrder;
         if (sortNb === sortOrder) {
-            return; // avoid rerendering
+            return; // avoid re-rendering
         }
         sortOrder = sortNb;
         privateUpdateSortOrderUi();
@@ -123,7 +116,7 @@
 
     function privateSetFilterOnFinishedActive(active) {
         if (filterFinishedActive === active) {
-            return; // avoid rerendering
+            return; // avoid re-rendering
         }
         $("#filter-finished-btn").toggleClass("pf-btn-pressed");
 
