@@ -179,11 +179,51 @@ details:not([open]) > summary {
     /* 'text-overflow: ellipsis;' : Does only work when 'white-space: nowrap' and width set to fixed value. */
 }
 
+/* without this rule ugly empty line appears */
+summary > p,
+summary > h1,
+summary > h2
+summary > h3,
+summary > h4,
+summary > h5,
+summary > h6 {
+    display: initial;
+}
+
+#no-notes-msg {
+    color: #cccccc;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#no-notes-msg h1 {
+    margin-top: 2em;
+    font-size: 400%;
+    line-height: 100%;
+}
+
+#no-notes-msg p {
+    font-size: 200%;
+    line-height: 100%;
+}
 
 
 /**
  * Styles specific for edit.html:
  */
+
+.error {
+    display: none;
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid red;
+    border-radius: 4px;
+    font-size: large;
+    color: red;
+}
 
 .pf-flex-edit-col1 {
     flex: 0 0 30%;

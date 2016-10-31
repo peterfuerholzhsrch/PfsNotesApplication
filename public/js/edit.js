@@ -32,27 +32,38 @@
 
         if (paramValue) {
             // (try to) edit note with id=paramValue
-            note = notesService.editNote(parseInt(paramValue));
+            notesService.getNote(paramValue).then(privateFillUi);
         }
         else {
-            // create new note
-            note = notesService.createNewNote();
+            // create new note and show this:
+            privateFillUi(notesService.createNewNote());
         }
+    });
 
+    function privateFillUi(noteToFillUi) {
+        note = noteToFillUi;
         console.log('edit: note=', note);
 
-        //
-        // show current content of note:
-        //
-        $('#title-input').val(note.title);
-        $('#description-input').val(note.description);
-        $('#date-input').val(new Date(note.dueDate).toISOString().slice(0, 10));  // format: yyyy-MM-dd
-        //$('#title-input').value = note.title;
-        // replace 'div' with severity widget:
-        severity.installSeverityWidgetOn("#severity-widget", note, true, "severity-widget");
+        try {
+            //
+            // show current content of note:
+            //
+            $('#title-input').val(note.title);
+            $('#description-input').val(note.description);
+            $('#date-input').val(note.dueDate);
+            //new Date(note.dueDate).toISOString().slice(0, 10));  // format: yyyy-MM-dd
+            //$('#title-input').value = note.title;
+            // replace 'div' with severity widget:
+            severity.installSeverityWidgetOn("#severity-widget", note, true, "severity-widget");
+        }
+        catch (err) {
+            console.log(err);
+            $('.error').css('display', 'block'); // make visible
+            $('#error-msg').html("No note found under set ID!");
+            $('#error-sub-msg').html(err);
+        }
+    }
 
-        // TODO catch error and show it!!!
-    });
 
     function privateGetUrlParameter(param) {
         // taken from http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html

@@ -55,7 +55,15 @@ function:		Base HTML.
 
         <!-- show notes: -->
 
-        <table id="notes-container"></table>
+        <table id="notes-container">
+        </table>
+
+        <div id="no-notes-msg">
+            <div>
+                <h1>There aren't any notes to show!</h1>
+                <p>Press 'Create New Note' to add a note (or tick off the filter)!</p>
+            </div>
+        </div>
 
         <!--
             Load libs:
@@ -63,10 +71,11 @@ function:		Base HTML.
         <script src="http://code.jquery.com/jquery-3.1.0.min.js"
                 integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
                 crossorigin="anonymous" ></script>
-        <script src="../lib/handlebars-v4.0.5.js"></script>
+        <script src="lib/handlebars-v4.0.5.js"></script>
         <!-- see usage: http://formatjs.io/handlebars/ -->
-        <!-- script src="js/handlebars-intl-1.1.1/dist/handlebars-intl-with-locales.min.js"></script -->
-        <script src="../lib/handlebars-intl-with-locales.min.js"></script>
+        <script src="lib/handlebars-intl-with-locales.min.js"></script>
+        <!-- see https://github.com/jgm/commonmark.js -->
+        <script src="lib/commonmark.min.js"></script>
 
 
         <!--
@@ -77,6 +86,8 @@ function:		Base HTML.
         <script src="js/service/handleBars.js"></script>
         <script src="js/model/note.js"></script>
         <script src="js/service/notesService.js"></script>
+        <script src="js/service/ajaxUtil.js"></script>
+        <script src="js/service/restClient.js"></script>
 
         <script src="js/main.js"></script>
         <script src="js/styling.js"></script>
@@ -92,7 +103,7 @@ function:		Base HTML.
                         {{ formatRelative dueDate }}
                     </div>
                     <div class="pf-finished">
-                        <input type="checkbox" data-id={{id}} {{checkedIfTrue finishedDate}}>Finished
+                        <input type="checkbox" data-id={{_id}} {{checkedIfTrue finishedDate}}>Finished
                         {{#if finishedDate}}
                         [{{ formatRelative finishedDate }}]
                         {{/if}}
@@ -103,12 +114,12 @@ function:		Base HTML.
                         <div><span class="pf-notes-item-title">{{title}}</span>
                             <span class="pf-severity-widget">{{severity}}</span>
                         </div>
-                        <details id=details-{{ id }}><summary>{{{description}}}</summary></details>
+                        <details id=details-{{_id}}><summary>{{{ safeMarkdown description }}}</summary></details>
                     </div>
                 </td>
                 <td class="pf-flex-notes-col3">
                     <button class="pf-btn pf-edit-btn"
-                            onclick={{{ editBtnListener id }}}>Edit</button>
+                            onclick={{{ editBtnListener _id }}}>Edit</button>
                 </td>
             </tr>
             {{/each}}

@@ -10,17 +10,6 @@
 
 var severity = (function($) {
 
-    var MIN_SEVERITY = 1;
-    var MAX_SEVERITY = 5;
-
-
-    function publicCheckSeverityRange(severity) {
-        if (!severity || severity < MIN_SEVERITY || severity > MAX_SEVERITY) {
-            throw new Error('severity value=' + severity + ' out of range: [' + MIN_SEVERITY +'..' + MAX_SEVERITY + ']');
-        }
-    }
-
-
     /**
      *
      * @param enabled boolean
@@ -122,7 +111,6 @@ var severity = (function($) {
     }
 
     return {
-        checkSeverityRange: publicCheckSeverityRange,
         installSeverityWidgetOn: publicInstallSeverityWidgetOn,
         installSeverityWidgetOnEl: publicInstallSeverityWidgetOnEl
     };

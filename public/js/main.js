@@ -49,16 +49,16 @@
             if (!id) {
                 return;  // not clicked onto checkbox...
             }
-            var note = notesService.editNote(parseInt(id));
-            if (note.finishedDate) {
-                note.finishedDate = null;
-            }
-            else {
-                note.finishedDate = new Date();
-            }
-            notesService.saveNote(note);
-
-            privateRenderNotes(); // rerender to show updated finished-timestamp
+            var notePromise = notesService.getNote(id);
+            notePromise.then(function(note) {
+                if (note.finishedDate) {
+                    note.finishedDate = null;
+                }
+                else {
+                    note.finishedDate = new Date();
+                }
+                notesService.saveNote(note).then(privateRenderNotes);  // rerender to show updated finished-timestamp
+            })
         });
 
         privateRenderNotes();
@@ -71,19 +71,32 @@
 
 
     function privateRenderNotes () {
-        $("#notes-container").html(createNotesHtml(getNotes(), { data: {intl: { locales: 'de-CH'}}}));
+        var promiseNotes = getNotes();
+        promiseNotes.then(function(notes) {
+            // update visibility of the 'empty message'
+            if (notes.length > 0) {
+                $("#no-notes-msg").hide();
+            }
+            else {
+                $("#no-notes-msg").show();
+            }
 
-        // replace elements with class='pf-severity-widget' with severity widget:
-        var severityWidgetsPlaceholders = $('.pf-severity-widget');
+            $("#notes-container").html(createNotesHtml(notes, {data: {intl: {locales: 'de-CH'}}}));
 
-        // severityWidgetsPlaceholders and getNotes() MUST have same length!
+            //
+            // replace elements with class='pf-severity-widget' with severity widget:
+            //
+            var severityWidgetsPlaceholders = $('.pf-severity-widget');
 
-        // Doesn't work: for (var i in severityWidgetsPlaceholders){
-        // severityWidgetsPlaceholders has additional property 'length' which does not get overread -> getNotes()['length']
-        // produces error!
-        for (var i=0; i<severityWidgetsPlaceholders.length; ++i){
-            severity.installSeverityWidgetOnEl($(severityWidgetsPlaceholders[i]), getNotes()[i], false/*editable*/);
-        }
+            // severityWidgetsPlaceholders and getNotes() MUST have same length!
+
+            // Doesn't work: for (var i in severityWidgetsPlaceholders){
+            // severityWidgetsPlaceholders has additional property 'length' which does not get overread -> getNotes()['length']
+            // produces error!
+            for (var i = 0; i < severityWidgetsPlaceholders.length; ++i) {
+                severity.installSeverityWidgetOnEl($(severityWidgetsPlaceholders[i]), notes[i], false/*editable*/);
+            }
+        });
     }
 
     function privateSetSortOrder(event) {
@@ -124,9 +137,9 @@
         privateRenderNotes();
     }
 
-    function privateIsFilterFinishedActive() {
-        return filterFinishedActive;
-    }
+    // function privateIsFilterFinishedActive() {
+    //     return filterFinishedActive;
+    // }
 
 
     function privateSortNotesByFinishDate(notes) {
@@ -150,34 +163,40 @@
         return notes.sort(compareByImportance);
     }
 
-    /**
-     *
-     * @param filterOnFinishedActive If true only the finished notes are returned. If false <b>all notes</b> are returned.
-     * @returns {*}
-     */
-    function privateFilterOnFinished(filterOnFinishedActive) {
-        return filterOnFinishedActive ?
-            notesService.getNotes().filter(function(note) { return !!note.finishedDate; } ) : notesService.getNotes();
+    function privateFilterOnFinished(filterOnFinishedActive, callback) {
+        return notesService.getNotes().then(
+            function(notes) {
+                return (filterOnFinishedActive ? notes.filter(function(note) { return !!note.finishedDate; } ) : notes);
+            }, function (error) {
+                console.log(error);
+                return error;
+            });
     }
 
+
+    /**
+     *
+     * @returns {*} Promise on filtered and sorted notes
+     */
     function getNotes() {
-        var notes = privateFilterOnFinished(filterFinishedActive);
+        var notesPromise = privateFilterOnFinished(filterFinishedActive);
 
-        switch (sortOrder) {
-            case 0:
-                notes = privateSortNotesByFinishDate(notes);
-                break;
-            case 1:
-                notes = privateSortNotesByCreationDate(notes);
-                break;
-            case 2:
-                notes = privateSortNotesByImportance(notes);
-                break;
-            default:
-                console.error("sortOrder out of range: ", sortOrder);
-        }
-
-        return notes;
+        return notesPromise.then(function (notes) {
+            switch (sortOrder) {
+                case 0:
+                    notes = privateSortNotesByFinishDate(notes);
+                    break;
+                case 1:
+                    notes = privateSortNotesByCreationDate(notes);
+                    break;
+                case 2:
+                    notes = privateSortNotesByImportance(notes);
+                    break;
+                default:
+                    console.error("sortOrder out of range: ", sortOrder);
+            }
+            return notes;
+        })
     }
 
     return {

@@ -9,7 +9,7 @@ function:		HTML for editing note.
 ******************************************************************************************************** -->
 
 
-<html>
+<p>
     <head>
         <meta charset="utf-8">
         <title>PF's Notes Application</title>
@@ -30,7 +30,13 @@ function:		HTML for editing note.
         <link rel="alternate stylesheet" type="text/css" title="style-blues" href="css/blues.css">
     </head>
 
-    <body>
+    <p>
+
+        <div class="error">
+            <h1 id="error-msg"></h1>
+            <p id="error-sub-msg"></p>
+        </div>
+
         <div class="pf-flex">
             <label for="title-input" class="pf-flex-edit-col1">
                 Title*
@@ -43,7 +49,7 @@ function:		HTML for editing note.
         </div>
         <div class="pf-edit pf-flex">
             <label for="description-input" class="pf-flex-edit-col1">
-                Description
+                Description (<a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> supported!)
             </label>
             <div class="pf-flex-edit-col2">
                 <textarea id="description-input" rows="4" name="description">
@@ -90,6 +96,8 @@ function:		HTML for editing note.
         <script src="js/severity.js"></script>
         <script src="js/model/note.js"></script>
         <script src="js/service/notesService.js"></script>
+        <script src="js/service/ajaxUtil.js"></script>
+        <script src="js/service/restClient.js"></script>
 
         <script src="js/styling.js"></script>
         <script src="js/validation/validation.js"></script>
