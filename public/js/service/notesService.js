@@ -9,6 +9,9 @@ var notesService = (function($) {
 
     var STYLE_PERSISTENCE_KEY = "pf-style-persistence";
 
+    function createNote(msg) {
+        return new note.Note(msg.title, msg.description, msg.severity, msg.creationDate, msg.dueDate, msg.finishedDate, msg._id);
+    }
 
     /**
      * @return Promise on Array Returns persistent notes.
@@ -16,7 +19,18 @@ var notesService = (function($) {
     function publicGetNotes() {
         return window.restClient.getNotes().then(
             function (msg) {
-                return msg ? msg.orders : null;
+                if (msg && msg.orders) {
+                    var notes = [];
+                    // msg.orders.forEach(new function(order) {
+                    //    notes.push(createNote(order));
+                    // }) //
+                    for (var idx = 0; idx < msg.orders.length; ++idx) {
+                        notes.push(createNote(msg.orders[idx]));
+                    }
+                    // return msg.orders.map(function(it) { createNote(it) });
+                    return notes;
+                }
+                return null;
             },
             function (err) {
                 console.log.error(err);
@@ -33,7 +47,7 @@ var notesService = (function($) {
     function publicGetNote(id) {
         return window.restClient.getNote(id).then(
             function (msg) {
-                return msg;
+                return createNote(msg);
             },
             function (err) {
                 console.log.error(err);
@@ -55,6 +69,7 @@ var notesService = (function($) {
      * @returns {*} Promise on saved note
      */
     function publicSaveNote(note) {
+        console.log('NotesService, saveNote', note);
         return window.restClient.saveNote(note).then(
             function (msg) {
                 return msg;

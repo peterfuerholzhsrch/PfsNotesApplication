@@ -11,6 +11,7 @@
 (function($) {
 
     var note;
+    var DATE_FORMAT = "dd.mm.yy";
 
     /**
      * Run when page is ready.
@@ -24,6 +25,11 @@
             }
         });
         $("#cancelBtn").on("click", privateRouteToOverview);
+
+        // install jquery-ui datepicker and configure date format:
+        var datepickerWidget = $("#date-input");
+        datepickerWidget.datepicker();
+        datepickerWidget.datepicker("option", "dateFormat", DATE_FORMAT);
 
         // eval URL parameter to find out which item to edit:
         var paramValue = privateGetUrlParameter('id');
@@ -50,9 +56,8 @@
             //
             $('#title-input').val(note.title);
             $('#description-input').val(note.description);
-            $('#date-input').val(note.dueDate);
-            //new Date(note.dueDate).toISOString().slice(0, 10));  // format: yyyy-MM-dd
-            //$('#title-input').value = note.title;
+            var dateStr = $.datepicker.formatDate(DATE_FORMAT, note.dueDate);
+            $('#date-input').val(dateStr);
             // replace 'div' with severity widget:
             severity.installSeverityWidgetOn("#severity-widget", note, true, "severity-widget");
         }
@@ -108,7 +113,10 @@
         // update note / take over changes from the UI:
         note.title = titleInput.val();
         note.description = descriptionTextarea.val();
-        note.dueDate = duedateInput.val();
+
+        var dueDate = $.datepicker.parseDate(DATE_FORMAT, duedateInput.val());
+        note.setDueDate(dueDate);
+
         //$('#title-input').value = note.title;
         // severity is updated by the widget...
 

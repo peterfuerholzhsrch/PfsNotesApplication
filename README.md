@@ -10,21 +10,24 @@ other fashion. Used "fashions":
 
 
 ## Quick start
-* Download / Clone this project and start node ('node server.js'). Open browser under said URL (http://127.0.0.1:3001).
+* Download / Clone this project and start node ('node server.js'). Open browser under told URL (http://127.0.0.1:3001).
 
 
-## Specifc Features
+## Specific Features
 * A note can be finished on the main page only. (That means the 'finished' property is set from this page, all other
   properties can be set on the edit page.
 * The edited note is set by URL parameter. This has the advantage that an URL to a specific note can be saved and passed
   around (is bookmarkable). If a note cannot be found under set URL an error message is shown.
+* Notes can be edited using Markdown. As a positive side effect we have nicely escaped unwanted tags (preventing XSS
+  attacks).
+* Date input fields are not widespread supported (e.g. Safari). Thus I used jQuery-UI's date picker.
+
 
 ## Browser support
-Tested with (????????)
-* Chrome *(latest 2)*
-* Firefox *(latest 2)*
-* Safari *(latest 2)*
-
+Tested with:
+* Chrome 53.0 (on Mac)
+* Safari 10.0 (on Mac)
+* Firefox: NOT YET
 
 ## Documentation
 

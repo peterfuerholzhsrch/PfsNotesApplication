@@ -28,11 +28,9 @@ var handleBars = (function($) {
             // sanitize note texts to avoid XSS
             if (text) {
                 var parsed = reader.parse(text); // parsed is a 'Node' tree
-                console.log('before markdown', text); // TODO
                 text = writer.render(parsed); // result is a String
             }
             return text;
-            //return text ? text.replace(/\n/g, '<br/>') : text;
         } )
     });
 

@@ -137,28 +137,27 @@
         privateRenderNotes();
     }
 
-    // function privateIsFilterFinishedActive() {
-    //     return filterFinishedActive;
-    // }
-
+    function comparison(v1, v2) {
+        return (v1 > v2) ? 1 : (v1 < v2) ? -1 : 0;
+    }
 
     function privateSortNotesByFinishDate(notes) {
         var compareByFinishDate = function compareNotes(s1, s2) {
-            return s1.dueDate < s2.dueDate;
+            return comparison(s1.dueDate, s2.dueDate); // ascending
         };
         return notes.sort(compareByFinishDate);
     }
 
     function privateSortNotesByCreationDate(notes) {
         var compareByCreationDate = function compareNotes(s1, s2) {
-            return s1.creationDate < s2.creationDate;
+            return comparison(s1.creationDate, s2.creationDate); // ascending
         };
         return notes.sort(compareByCreationDate);
     }
 
     function privateSortNotesByImportance(notes) {
         var compareByImportance = function compareNotes(s1, s2) {
-            return s1.severity < s2.severity;
+            return comparison(s2.severity, s1.severity); // descending
         };
         return notes.sort(compareByImportance);
     }
