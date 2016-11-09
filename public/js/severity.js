@@ -19,14 +19,13 @@ var severity = (function($) {
         var disabledStr = enabled ? '' : 'disabled';
         var idString = id ? " id='" + id + "'" : "";
         // button used for CGAG
-        var template = '<div class="pf-severity"' + idString + '>'
-            + '  <button class="pf-severity-cell" data-value="1" ' + disabledStr + '>*</button>'
-            + '  <button class="pf-severity-cell" data-value="2" ' + disabledStr + '>*</button>'
-            + '  <button class="pf-severity-cell" data-value="3" ' + disabledStr + '>*</button>'
-            + '  <button class="pf-severity-cell" data-value="4" ' + disabledStr + '>*</button>'
-            + '  <button class="pf-severity-cell" data-value="5" ' + disabledStr + '>*</button>'
-            + '</div>';
-        return template;
+        return '<div class="pf-severity"' + idString + '>'
+             + '  <button class="pf-severity-cell" data-value="1" ' + disabledStr + '>*</button>'
+             + '  <button class="pf-severity-cell" data-value="2" ' + disabledStr + '>*</button>'
+             + '  <button class="pf-severity-cell" data-value="3" ' + disabledStr + '>*</button>'
+             + '  <button class="pf-severity-cell" data-value="4" ' + disabledStr + '>*</button>'
+             + '  <button class="pf-severity-cell" data-value="5" ' + disabledStr + '>*</button>'
+             + '</div>';
     }
 
     /**
@@ -80,7 +79,8 @@ var severity = (function($) {
 
 
     /**
-     * @param id
+     * @param elements
+     * @param setGetValue
      * @param value
      */
     function privateSetSeverity(elements, setGetValue, value) {
@@ -93,9 +93,9 @@ var severity = (function($) {
 
 
     /**
-     *
-     * @param cssPath
+     * @param elements
      * @param value
+     * @param editable
      */
     function privateUpdateSeverity(elements, value, editable) {
         // update UI:

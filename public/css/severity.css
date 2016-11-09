@@ -16,13 +16,11 @@
     flex: 0 0 auto;
     color: #dddddd;
     font-size: 36px;
-    border-width: 10px 4px;
-    /*cursor: pointer;*/
 
     /* use button for accessibility but disguise to look like: */
     background: transparent;
     border: 0;
-    padding: 5px 0px; /* top bottom */
+    padding: 5px 0; /* top bottom */
 }
 
 .pf-severity-cell-editable {

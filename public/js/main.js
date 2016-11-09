@@ -99,6 +99,7 @@
         });
     }
 
+
     function privateSetSortOrder(event) {
         var sortNb = event.data.sortOrder;
         if (sortNb === sortOrder) {
@@ -107,6 +108,7 @@
         sortOrder = sortNb;
         privateUpdateSortOrderUi();
     }
+
 
     function privateUpdateSortOrderUi() {
         // update UI:
@@ -119,13 +121,11 @@
         privateRenderNotes();
     }
 
-    function privateGetSortOrder() {
-        return sortOrder;
-    }
 
     function privateToggleFilterOnFinished() {
         privateSetFilterOnFinishedActive(!filterFinishedActive);
     }
+
 
     function privateSetFilterOnFinishedActive(active) {
         if (filterFinishedActive === active) {
@@ -137,9 +137,11 @@
         privateRenderNotes();
     }
 
+
     function comparison(v1, v2) {
         return (v1 > v2) ? 1 : (v1 < v2) ? -1 : 0;
     }
+
 
     function privateSortNotesByFinishDate(notes) {
         var compareByFinishDate = function compareNotes(s1, s2) {
@@ -148,6 +150,7 @@
         return notes.sort(compareByFinishDate);
     }
 
+
     function privateSortNotesByCreationDate(notes) {
         var compareByCreationDate = function compareNotes(s1, s2) {
             return comparison(s1.creationDate, s2.creationDate); // ascending
@@ -155,12 +158,14 @@
         return notes.sort(compareByCreationDate);
     }
 
+
     function privateSortNotesByImportance(notes) {
         var compareByImportance = function compareNotes(s1, s2) {
             return comparison(s2.severity, s1.severity); // descending
         };
         return notes.sort(compareByImportance);
     }
+
 
     function privateFilterOnFinished(filterOnFinishedActive, callback) {
         return notesService.getNotes().then(

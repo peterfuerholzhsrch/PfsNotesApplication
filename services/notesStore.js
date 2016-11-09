@@ -48,11 +48,8 @@ function fillInitialEntries() {
 function publicGetNotes(callback) {
     console.log("srv.getNotes");
 
-    // return notes;
     db.find({},
         function (err, docs) {
-            var docs;
-            var err;
             console.log("find() called, err=", err, " docs=", docs);
 
             if (FILL_INITIAL_ENTRIES) {

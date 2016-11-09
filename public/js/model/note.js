@@ -55,7 +55,8 @@ var note = (function() {
 
         this.setDueDate(dueDate || new Date());
         this.description = description || '';
-        checkSeverityRange(severityValue || 1);
+        severityValue = severityValue || 1
+        checkSeverityRange(severityValue);
         this.severity = severityValue;
         this.creationDate = creationDate || new Date();
         this.setFinishedDate(finishedDate);

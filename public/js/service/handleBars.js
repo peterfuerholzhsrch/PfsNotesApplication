@@ -7,7 +7,7 @@ var handleBars = (function($) {
 
     var reader = new commonmark.Parser();
 
-    // 'safe: true' is important for sanitizing user input:
+    // 'safe: true' is important for sanitizing user input (to averse XSS attacks):
     var writer = new commonmark.HtmlRenderer({safe: true, softbreak: '<br/>'});
 
 
@@ -25,7 +25,6 @@ var handleBars = (function($) {
         });
 
         Handlebars.registerHelper('safeMarkdown', function (text) {
-            // sanitize note texts to avoid XSS
             if (text) {
                 var parsed = reader.parse(text); // parsed is a 'Node' tree
                 text = writer.render(parsed); // result is a String

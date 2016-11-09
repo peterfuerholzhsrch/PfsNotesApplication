@@ -5,9 +5,7 @@
  *
  * Here we implement the module for managing Notes.
  */
-var notesService = (function($) {
-
-    var STYLE_PERSISTENCE_KEY = "pf-style-persistence";
+var notesService = (function() {
 
     function createNote(msg) {
         return new note.Note(msg.title, msg.description, msg.severity, msg.creationDate, msg.dueDate, msg.finishedDate, msg._id);
@@ -82,30 +80,10 @@ var notesService = (function($) {
     }
 
 
-    //
-    // methods for saving / loading current style:
-    //
-
-    /**
-     * @return String Returns persistent style, null if not available.
-     */
-    function publicGetStyle() {
-        return localStorage.getItem(STYLE_PERSISTENCE_KEY);
-    }
-
-    function publicSetStyle(style) {
-        localStorage.setItem(STYLE_PERSISTENCE_KEY, style);
-    }
-
-
     return {
         getNotes: publicGetNotes,
         getNote: publicGetNote,
         saveNote: publicSaveNote,
-
-        createNewNote: publicCreateNewNote,
-
-        getStyle: publicGetStyle,
-        setStyle: publicSetStyle
+        createNewNote: publicCreateNewNote
     };
-}(jQuery));
+}());

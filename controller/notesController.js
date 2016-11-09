@@ -42,7 +42,7 @@ module.exports.getNote = function(req, res)
 
 module.exports.saveNote = function(req, res)
 {
-    console.log("notesController", "req.body", req.body); // tODO
+    console.log("notesController", "req.body", req.body);
 
     store.saveNote(req.body,
         function(err, doc) {
