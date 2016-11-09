@@ -10,7 +10,9 @@ other fashion. Used "fashions":
 
 
 ## Quick start
-* Download / Clone this project and start node ('node server.js'). Open browser under told URL (http://127.0.0.1:3001).
+* Download / Clone this project
+* Install depending libs: npm install
+* start node.js ('node server.js'). Open browser under told URL (http://127.0.0.1:3001).
 
 
 ## Specific Features
