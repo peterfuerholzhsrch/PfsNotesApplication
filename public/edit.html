@@ -32,7 +32,8 @@ function:		HTML for editing note.
 
     <body>
         <div class="error">
-            <h1 id="error-msg"></h1>
+            <!-- h1 should not be empty / is dynamically filled when error occurs -->
+            <h1 id="error-msg">&nbsp;</h1>
             <p id="error-sub-msg"></p>
         </div>
 
@@ -48,7 +49,8 @@ function:		HTML for editing note.
         </div>
         <div class="pf-edit pf-flex">
             <label for="description-input" class="pf-flex-edit-col1">
-                Description (<a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> supported!)
+                <!-- tabIndex="-1" -> not focusable -->
+                Description (<a href="https://en.wikipedia.org/wiki/Markdown" tabIndex="-1">Markdown</a> supported!)
             </label>
             <div class="pf-flex-edit-col2">
                 <textarea id="description-input" rows="4" name="description">

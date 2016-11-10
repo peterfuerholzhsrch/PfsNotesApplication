@@ -34,9 +34,16 @@
      */
     function publicGetNote(id) {
         return ajaxUtil.ajax("GET", "/api/notes/" + id, null).then(function (msg) {
-            console.log("note loaded: ", msg);
-            return msg;
-        });
+                if (!msg) {
+                    throw new Error("Note not found!");
+                }
+                console.log("Note loaded: ", msg);
+                return msg;
+            },
+            function (err) {
+                console.log("Note not loaded: ", err);
+                throw err;
+            });
     }
 
     /**

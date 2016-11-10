@@ -31,7 +31,7 @@ var notesService = (function() {
                 return null;
             },
             function (err) {
-                console.log.error(err);
+                console.log(err);
                 return err;
             }
         );
@@ -48,8 +48,8 @@ var notesService = (function() {
                 return createNote(msg);
             },
             function (err) {
-                console.log.error(err);
-                return err;
+                console.log(err);
+                throw err;
             }
         );
     }

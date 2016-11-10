@@ -27,11 +27,9 @@ other fashion. Used "fashions":
 
 ## Browser support
 Tested with:
-* Chrome 53.0 (on Mac)
+* Chrome 53.0 (on Mac & Ubuntu)
 * Safari 10.0 (on Mac)
-* Firefox: NOT YET
-
-## Documentation
+* Firefox (on Ubuntu)
 
 
 ## License

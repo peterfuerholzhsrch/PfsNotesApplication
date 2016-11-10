@@ -38,7 +38,15 @@
 
         if (paramValue) {
             // (try to) edit note with id=paramValue
-            notesService.getNote(paramValue).then(privateFillUi);
+            notesService.getNote(paramValue).
+                then(privateFillUi).
+                catch(function(err) {
+                    console.log(err);
+                    $('.error').css('display', 'block'); // make visible
+                    $('#error-msg').html("No note found under set ID!");
+                    $('#error-sub-msg').html(err);
+                    $('#saveNotesBtn').attr("disabled", "true");
+                });
         }
         else {
             // create new note and show this:
@@ -50,23 +58,15 @@
         note = noteToFillUi;
         console.log('edit: note=', note);
 
-        try {
-            //
-            // show current content of note:
-            //
-            $('#title-input').val(note.title);
-            $('#description-input').val(note.description);
-            var dateStr = $.datepicker.formatDate(DATE_FORMAT, note.dueDate);
-            $('#date-input').val(dateStr);
-            // replace 'div' with severity widget:
-            severity.installSeverityWidgetOn("#severity-widget", note, true, "severity-widget");
-        }
-        catch (err) {
-            console.log(err);
-            $('.error').css('display', 'block'); // make visible
-            $('#error-msg').html("No note found under set ID!");
-            $('#error-sub-msg').html(err);
-        }
+        //
+        // show current content of note:
+        //
+        $('#title-input').val(note.title);
+        $('#description-input').val(note.description);
+        var dateStr = $.datepicker.formatDate(DATE_FORMAT, note.dueDate);
+        $('#date-input').val(dateStr);
+        // replace 'div' with severity widget:
+        severity.installSeverityWidgetOn("#severity-widget", note, true, "severity-widget");
     }
 
 

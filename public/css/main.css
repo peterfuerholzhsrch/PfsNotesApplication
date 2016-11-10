@@ -61,6 +61,10 @@ textarea[aria-invalid="true"]
     border-radius: 6px;
 }
 
+.pf-btn:disabled {
+    color: #cccccc;
+    border-style: inset;
+}
 
 .pf-btn-pressed {
     border-style: inset; /* same as :active style */
@@ -245,6 +249,10 @@ summary > h6 {
 }
 .pf-flex-right-aligned {
     flex: 0 0 20%;
+}
+
+#description-input {
+    resize: both;
 }
 
 #severity-widget div {
