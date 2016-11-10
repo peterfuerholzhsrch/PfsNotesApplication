@@ -97,7 +97,7 @@ function:		Base HTML.
             -->
         <script id="notes-template" type="text/x-handlebars-template">
             {{#each this}}
-            <tr class="pf-notes-row pf-flex">
+            <tr class="pf-notes-row pf-flex" title="Creation date: {{ formatRelative creationDate }}">
                 <td class="pf-flex-notes-col1">
                     <div class="pf-due-date">
                         {{ formatRelative dueDate }}

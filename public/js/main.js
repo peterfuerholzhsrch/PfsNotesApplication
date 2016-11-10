@@ -138,14 +138,24 @@
     }
 
 
-    function comparison(v1, v2) {
+    /**
+     * Comparison function
+     * @param v1
+     * @param v2
+     * @param nullEmptyValue gets used when v1 or v2 is falsey (null, undefined)
+     * @returns {number}
+     */
+    function comparison(v1, v2, nullEmptyValue) {
+        v1 = v1 || nullEmptyValue;
+        v2 = v2 || nullEmptyValue;
         return (v1 > v2) ? 1 : (v1 < v2) ? -1 : 0;
     }
 
 
     function privateSortNotesByFinishDate(notes) {
         var compareByFinishDate = function compareNotes(s1, s2) {
-            return comparison(s1.dueDate, s2.dueDate); // ascending
+            // new Date(8640000000000000) is max date, see http://stackoverflow.com/questions/11526504/minimum-and-maximum-date
+            return comparison(s1.finishedDate, s2.finishedDate, new Date(8640000000000000)); // ascending
         };
         return notes.sort(compareByFinishDate);
     }
@@ -153,7 +163,7 @@
 
     function privateSortNotesByCreationDate(notes) {
         var compareByCreationDate = function compareNotes(s1, s2) {
-            return comparison(s1.creationDate, s2.creationDate); // ascending
+            return comparison(s1.creationDate, s2.creationDate, new Date(8640000000000000)); // ascending
         };
         return notes.sort(compareByCreationDate);
     }
@@ -161,7 +171,7 @@
 
     function privateSortNotesByImportance(notes) {
         var compareByImportance = function compareNotes(s1, s2) {
-            return comparison(s2.severity, s1.severity); // descending
+            return comparison(s2.severity, s1.severity, 0); // descending
         };
         return notes.sort(compareByImportance);
     }
